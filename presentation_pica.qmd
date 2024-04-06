@@ -155,5 +155,13 @@ ggplot(metric_data, aes(x = estimate, y = Albina, fill = Albina)) +
 
 # Conclusions
 
-- Stat-activism: using data to inform policy and advocacy
+- Reflecting on Change
+  + Albina's Transformation
+  + Economic Shifts
+
+- Policy Reflections
+  + Sustainable Development
+  + Community Engagement
+
+- Stat-activism: data to inform advocacy
 
