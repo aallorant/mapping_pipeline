@@ -1,0 +1,22 @@
+project:
+  type: website
+
+website:
+  title: "Mapping population displacement"
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/aallorant/mapping_pipeline
+    left:
+      - text: Project
+        href: index.qmd
+      - text: "Presentation"
+        href: presentation_pica.qmd
+      - text: "About"
+        href: about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

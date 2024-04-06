@@ -1,0 +1,159 @@
+---
+title: "Mapping the pipeline"
+subtitle: "Quantifying population displacement in Portland"
+format: 
+  revealjs
+highlight-style: a11y
+execute:
+  code-link: true
+  echo: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| echo: false
+#| label: setup
+#| message: false
+
+# load packages
+library(countdown)
+library(tidyverse)
+library(gt)
+library(readxl)
+library(knitr)
+library(tidyverse)
+library(ggthemes)
+library(moderndive)
+library(NHANES)
+library(infer)
+library(ggridges)
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14))
+
+# set width of code output
+options(width = 65)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+# load the data
+
+load(file = "all_data_list.RData")
+```
+
+## Quantifying population displacement {.smaller}
+
+::: incremental
+- Why?
+  + Bridging the gap between anecdotal/personal observations and empirical evidence
+  + Visualizing demographic shifts and economic transformations
+
+<br>
+
+- How?
+  + Data sources: The **Decennial Census** and the **American Community Survey**
+  + Unit of analysis: **Census Tracts** as the unit of analysis
+
+<br>
+
+- Which metrics?
+  + **Median Household Income**
+  + **Percentage of Black Residents**
+
+- Why these metrics?
+:::
+
+# Median Household Income by Census Tract
+
+## Overall distribution
+
+```{r}
+#| label: simple-viz
+#| echo: false
+
+metric_data <- all_data_list[["Median_Household"]]  
+ggplot(metric_data, aes(x = estimate, y = Albina, fill = Albina)) +
+  geom_density_ridges_gradient(scale = 3, size = 0.3, rel_min_height = 0.01) +
+  scale_fill_manual(values = c("Rest of Portland" = "#69b3a2", "Albina" = "#404080")) +
+  labs(title = "Distribution of Median Household Income",
+       subtitle = "Comparing Albina to the Rest of Portland",
+       x = "Median Household Income",
+       y = "",
+       fill = "Area") +
+  theme_ridges(grid = TRUE) +
+  # adding a continuous x scale to transform number to percentage
+  scale_x_continuous(labels = scales::dollar_format()) +
+  theme(
+    strip.text.y = element_text(angle = 0),
+    legend.position = "none"  # Optionally hide the legend if it's clear from the context
+  ) +facet_wrap(~Year, scales = "fixed", ncol = 1)  # Separate plots by year
+
+```
+
+
+## Map 2009
+
+![2009](maps/final_income_2009.png)
+
+## Map 2015
+
+![2015](maps/final_income_2015.png)
+
+## Map 2022
+
+![2022](maps/final_income_2022.png)
+
+# % Black Residents by Census Tract
+
+## Overall distribution
+
+```{r}
+#| label: simple-viz-2
+#| echo: false
+
+metric_data <- all_data_list[["Black_Percentage"]]  # Example: Change this to the metric you're plotting
+
+# Continuing from the previous setup for the "Black_Percentage" metric
+ggplot(metric_data, aes(x = estimate, y = Albina, fill = Albina)) +
+  geom_density_ridges_gradient(scale = 3, size = 0.3, rel_min_height = 0.01) +
+  scale_fill_manual(values = c("Rest of Portland" = "#69b3a2", "Albina" = "#404080")) +
+  labs(title = "Proportion of Black Residents",
+       subtitle = "Albina vs the Rest of Portland by Census Tracts",
+       x = "Percentage of Black Residents",
+       y = "",
+       fill = "Area") +
+  theme_ridges(grid = TRUE) +
+  # adding a continuous x scale to transform number to percentage
+  scale_x_continuous(labels = scales::percent_format(scale = 100)) +
+  theme(
+    strip.text.y = element_text(angle = 0),
+    legend.position = "none"  # Optionally hide the legend if it's clear from the context
+  ) +facet_wrap(~Year, scales = "fixed", ncol = 1)  # Separate plots by year
+
+
+```
+
+## Map 2009
+
+![2009](maps/final_prop_black_2009.png)
+
+## Map 2015
+
+![2015](maps/final_prop_black_2015.png)
+
+## Map 2022
+
+![2022](maps/final_prop_black_2022.png)
+
+# Conclusions
+
+- Stat-activism: using data to inform policy and advocacy
+
